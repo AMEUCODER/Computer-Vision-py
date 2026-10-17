@@ -7,6 +7,23 @@ instead of clicking or pressing space.
 ![App Screenshot](screenshot1.png)
 ![App Screenshot](screenshot2.png)
 
+## 📷 Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="screenshot1.png" width="220" alt="Gameplay View"/>
+      <br />
+      <sub><b>Gameplay / Crash Screen</b></sub>
+    </td>
+    <td align="center">
+      <img src="screenshot2.png" width="220" alt="Leaderboard View"/>
+      <br />
+      <sub><b>Top Scores Leaderboard</b></sub>
+    </td>
+  </tr>
+</table>
+
 
 ## What we used
 
