@@ -3,10 +3,6 @@
 A Flappy Bird clone controlled by tilting your head in front of a webcam,
 instead of clicking or pressing space.
 
-# screenshots
-![App Screenshot](screenshot1.png)
-![App Screenshot](screenshot2.png)
-
 ## 📷 Screenshots
 
 <table>
