@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+*_env/
+mp_env/
+
+# Generated at runtime
+captures/
+*.mp4
+highscores.json
+traffic_scores.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

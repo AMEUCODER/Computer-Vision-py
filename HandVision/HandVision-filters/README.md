@@ -1,114 +1,72 @@
 # Hand Gesture Filter Camera
 
-A live webcam app that tracks your hand with MediaPipe, switches image
-filters based on how many fingers you're holding up, auto-captures a
-photo after you hold up one finger for a few seconds (Pixel-camera-style
-countdown), and can record video on demand.
+A live webcam app that tracks your hand with MediaPipe and switches image filters based on how many fingers you hold up. Hold one finger for a few seconds and it takes a photo after a countdown, and you can record video on demand.
 
 ## Features
 
-- **Real-time hand tracking** via MediaPipe (21-landmark skeleton overlay)
-- **Finger-count-controlled filters**: fist, face blur, thermal look, edge
-  detection, color invert
-- **Hands-free photo capture**: hold up 1 finger for 5 seconds -> a
-  5-second on-screen countdown appears -> photo is saved automatically
-- **Video recording**: press `f` to start/stop recording the live feed
-  to an `.mp4` file
-- **Debounced gesture detection** so filters don't flicker from a single
-  noisy frame
+- Real-time hand tracking with a 21-landmark skeleton overlay
+- Finger-count-controlled filters (see the table below)
+- Hands-free photo: hold up **1 finger for 5 seconds**, then a 5-second on-screen countdown runs and the photo saves automatically
+- Video recording: press `f` to start or stop
+- Debounced gesture detection so filters don't flicker on one noisy frame
 
-## Project Structure
+## Finger count -> filter
 
-```
-.
-├── main.py           # camera loop - ties everything together, run this
-├── fingercount.py     # MediaPipe hand tracking + finger-counting logic
-├── filters.py         # all image filter functions + finger->filter map
-├── capture.py          # hold-to-trigger photo countdown + video recording
-├── captures/
-│   ├── photos/          # auto-saved photos land here
-│   └── videos/           # recorded videos land here
-└── README.md
-```
+| Fingers | Filter | How it works |
+|---|---|---|
+| 0 (fist) | None | Normal feed |
+| 1 | Sobel edge magnitude | Grayscale gradient image (`apply_sharpen_filter` in `filters.py`) |
+| 2 | Edge detection | `filter_edges` |
+| 3 | Thermal / heatmap | `filter_thermal` (grayscale mapped to a color map) |
+| 4 | Color invert | `filter_invert` |
+| 5 (open palm) | None | Normal feed |
 
-## Setup
+`filters.py` also contains `filter_gray`, `filter_sepia` and `blur_face` (Haar-cascade face blur). They are not mapped to a finger count by default, so you can wire them into `get_filters()` yourself.
 
-1. (Recommended) create and activate a virtual environment (version 3.12):
-   ```
-   python -m venv mp_env
-   # Windows
-   mp_env\Scripts\activate
-   # macOS/Linux
-   source mp_env/bin/activate
-   ```
-
-2. Install dependencies:
-   ```
-   pip install opencv-python mediapipe
-   ```
-
-3. Run it:
-   ```
-   python main.py
-   ```
+> Holding **1 finger** is dual-purpose: it applies filter 1 immediately, and holding it for 5 seconds also starts the photo countdown. To separate them, change `TRIGGER_FINGER_COUNT` in `capture.py`.
 
 ## Controls
 
-| Action                           | How                                               |
-|----------------------------------|---------------------------------------------------|
-| Switch filter                    | Hold up the matching number of fingers (see table below) |
-| Take a photo (hands-free)        | Hold up **1 finger for 5 seconds** -> wait out the 5s countdown |
-| Start / stop video recording     | Press `f`                                         |
-| Quit                             | Press `q`                                         |
+| Action | How |
+|---|---|
+| Switch filter | Hold up the matching number of fingers |
+| Take a photo | Hold **1 finger for 5 seconds**, then wait out the 5-second countdown |
+| Start / stop recording | Press `f` |
+| Quit | Press `q` |
 
-## Finger Count -> Filter
+## Setup
 
-| Fingers | Filter                             |
-|---------|----------------------------------- |
-| 0 (fist)| None (normal feed)                 |
-| 1       | kermel                             |
-| 2       | Thermal                            |
-| 3       | Thermal / heatmap                  |
-| 4       | Color invert                       |
-| 5 (open palm) | None (normal feed)           |
+```bash
+pip install opencv-python mediapipe==0.10.21 numpy
+python main.py
+```
 
-> Note: holding up **1 finger** is dual-purpose - it applies the face-blur
-> filter immediately, and if held continuously for 5 seconds it *also*
-> triggers the photo countdown. This is intentional but can be changed by
-> setting `TRIGGER_FINGER_COUNT` in `capture.py` to a different value than
-> the one mapped to a filter in `filters.py`.
+`mediapipe==0.10.21` is required because this project uses the legacy `mp.solutions` API.
+
+## Project structure
+
+```
+HandVision-filters/
+├── main.py          # camera loop, debouncing, ties everything together (run this)
+├── fingercount.py   # MediaPipe hand tracking + finger counting
+├── filters.py       # filter functions + the finger-count -> filter map
+├── capture.py       # hold-to-trigger photo countdown + video recording
+└── README.md
+```
+
+Photos are saved to `captures/photos/photo_<timestamp>.png` and videos to `captures/videos/video_<timestamp>.mp4`. Both folders are created automatically and are git-ignored.
 
 ## Customizing
 
-- **Add/change a filter**: write a new `def my_filter(frame): ...` function
-  in `filters.py` (it must take a BGR frame and return a BGR frame), then
-  add it to the dict returned by `get_filters()`.
-- **Change which gesture triggers the photo timer**: edit
-  `TRIGGER_FINGER_COUNT` in `capture.py`.
-- **Change the hold duration or countdown length**: edit
-  `HOLD_TRIGGER_SECONDS` and `COUNTDOWN_SECONDS` in `capture.py`.
-- **Change how strict filter-switching debounce is**: edit
-  `DEBOUNCE_FRAMES` in `main.py`.
-- **Change detection sensitivity**: edit `min_detection_confidence` /
-  `min_tracking_confidence` in `fingercount.py` (lower = more sensitive
-  but more false positives).
-
-## Output
-
-- Photos save to `captures/photos/photo_<timestamp>.png`
-- Videos save to `captures/videos/video_<timestamp>.mp4`
-- Both folders are created automatically if they don't exist.
+- **Add a filter:** write `def my_filter(frame): ...` in `filters.py` (BGR frame in, BGR frame out) and add it to the dict in `get_filters()`.
+- **Change the photo trigger:** edit `TRIGGER_FINGER_COUNT`, `HOLD_TRIGGER_SECONDS` and `COUNTDOWN_SECONDS` in `capture.py`.
+- **Change debounce strictness:** edit `DEBOUNCE_FRAMES` in `main.py`.
+- **Change detection sensitivity:** edit `min_detection_confidence` and `min_tracking_confidence` in `fingercount.py`.
 
 ## Troubleshooting
 
-- **No hand detected**: make sure you're well-lit and your whole hand is
-  in frame; MediaPipe's model handles most lighting/background conditions
-  well without any manual tuning.
-- **Filters flicker between two values**: raise `DEBOUNCE_FRAMES` in
-  `main.py`.
-- **Photo countdown triggers by accident**: raise `HOLD_TRIGGER_SECONDS`
-  in `capture.py`, or pick a less commonly-used finger count for
-  `TRIGGER_FINGER_COUNT`.
-- **Video file won't open**: some players don't support the `mp4v`
-  fourcc codec - try changing it to `'XVID'` (and the file extension to
-  `.avi`) in `capture.py` if this happens.
+- **`module 'mediapipe' has no attribute 'solutions'`:** install `mediapipe==0.10.21`.
+- **No hand detected:** use good lighting and keep your whole hand in frame.
+- **Filters flicker:** raise `DEBOUNCE_FRAMES`.
+- **Photo countdown starts by accident:** raise `HOLD_TRIGGER_SECONDS` or use a different `TRIGGER_FINGER_COUNT`.
+- **Video won't open in your player:** change the `mp4v` fourcc in `capture.py` to `XVID` and the extension to `.avi`.

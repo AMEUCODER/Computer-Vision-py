@@ -1,78 +1,77 @@
 # Computer Vision Playground
 
-Real-time computer vision projects built with Python — hand gesture
-recognition, live camera filters, and interactive vision tools using
-OpenCV, MediaPipe, NumPy, and Tkinter. Focused on practical, real-time
-image processing: tracking, filters, and gesture-controlled interfaces
-balancing accuracy with performance.
-
-## Tech Stack
-
-| Library       | Used for                                                                              |
-|-------------  |-------------------------------------------------------------------                    |
-| **OpenCV**    | Camera capture, image processing, classic CV (contours, color thresholding, filters, edge detection) |
-| **MediaPipe** | Pretrained ML models for hand/pose/face landmark tracking                             |
-| **NumPy**     | Array/matrix math behind custom filters and geometric calculations                    |
-| **Tkinter**   | Lightweight GUIs and controls where a project needs more than OpenCV's native windows |
+Real-time computer vision projects in Python: hand-gesture recognition, live camera filters, and camera-controlled games, built with OpenCV, MediaPipe, NumPy, Pygame and Tkinter. The focus is practical, real-time image processing that balances accuracy with speed.
 
 ## Projects
 
-| Project | Description | Folder |
-|---------|-------------|--------|
-| **GestureLens** | Real-time webcam app using MediaPipe hand tracking to switch live filters, capture photos, and record video through hand gestures. | [`/GestureLens`](./GestureLens) |
+| Project | Category | What it does | Folder |
+|---|---|---|---|
+| **Hand Gesture Filter Camera** | HandVision | Switch live filters by holding up 0-5 fingers, hands-free photo countdown, video recording. | [`HandVision/HandVision-filters`](./HandVision/HandVision-filters) |
+| **Air Draw** | HandVision | Draw in the air with your index finger; two-finger erase, fist to clear. | [`HandVision/Air-Draw`](./HandVision/Air-Draw) |
+| **Rock-Paper-Scissors** | HandVision | Play against the computer using your real hand, with a countdown and scoreboard. | [`HandVision/Rock-papper-scissors`](./HandVision/Rock-papper-scissors) |
+| **Sign Identification** | HandVision | Recognizes 10 hand signs (fist, peace, thumbs up, OK, ...) with rule-based geometry, no training data. | [`HandVision/Sign-Identification`](./HandVision/Sign-Identification) |
+| **Head-Tilt Traffic Racer** | GameVision | Steer a car through 3-lane traffic by tilting your head. Difficulty modes and a top-5 leaderboard. | [`GameVision/FlappyBird`](./GameVision/FlappyBird) |
 
-> More projects will be added here over time - each one lives in its own
-> folder with a dedicated README covering setup, controls, and how it works.
+> `DocVision`, `RadarVision` and `GameVision/2D-Car-Game` are reserved folders for upcoming projects and contain no code yet.
+
+## Tech Stack
+
+| Library | Used for |
+|---|---|
+| **OpenCV** | Camera capture, image processing, filters, edge detection, Haar-cascade face detection |
+| **MediaPipe** | Pretrained hand and face landmark tracking (21 hand points, 468 face points) |
+| **NumPy** | Array math for filters, angles and distances |
+| **Pygame** | Window, input and rendering for the camera-controlled game |
+
+## Setup
+
+Python 3.9-3.12 is recommended.
+
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# macOS / Linux
+source venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+Then open a project folder and follow its own README (usually `python main.py`).
+
+### Important: MediaPipe version
+
+These projects use the legacy `mp.solutions` API (`mp.solutions.hands`, `mp.solutions.face_mesh`), which was removed in newer MediaPipe releases. `requirements.txt` pins `mediapipe==0.10.21`, the last version that still ships it. If you see `AttributeError: module 'mediapipe' has no attribute 'solutions'`, you have a newer version installed:
+
+```bash
+pip install mediapipe==0.10.21
+```
 
 ## Repository Structure
 
 ```
 .
-├── HandVision-filters/          # hand-gesture-controlled camera filter app
-│   ├── main.py
-│   ├── fingercount.py
-│   ├── filters.py
-│   ├── capture.py
-│   ├── captures/
-│   └── README.md
-├── (future projects...)
-└── README.md              # you are here
+├── HandVision/
+│   ├── HandVision-filters/      # finger-count filters, photo + video capture
+│   ├── Air-Draw/                # draw in the air
+│   ├── Rock-papper-scissors/    # RPS game vs. the computer
+│   └── Sign-Identification/     # 10-sign rule-based classifier
+├── GameVision/
+│   └── FlappyBird/              # Head-Tilt Traffic Racer (folder name is historical)
+├── DocVision/                   # reserved
+├── RadarVision/                 # reserved
+├── requirements.txt
+├── LICENSE
+└── README.md
 ```
 
-## General Setup
+## Design Principles
 
-Each project has its own dependencies and instructions in its folder's
-README, but most share this base setup:
-
-1. Create a virtual environment:
-   ```
-   python -m venv venv
-   # Windows
-   venv\Scripts\activate
-   # macOS/Linux
-   source venv/bin/activate
-   ```
-
-2. Install common dependencies:
-   ```
-   pip install opencv-python mediapipe numpy
-   ```
-   (Tkinter ships with most standard Python installs already.)
-
-3. Enter a project folder and run its `main.py` (or as instructed in
-   that project's own README).
-
-## Philosophy
-
-Every project here favors:
-- **Real-time performance** over maximal accuracy - detection runs on
-  live video, so speed and responsiveness matter as much as precision
-- **Minimal dependencies** - core CV libraries only, no heavyweight
-  frameworks unless a project specifically needs one
-- **Readable, commented code** - each project is meant to be learned
-  from, not just run
+- **Real-time first.** Detection runs on live video, so speed and responsiveness matter as much as precision.
+- **Minimal dependencies.** Core CV libraries only.
+- **Readable, commented code.** Each project is meant to be learned from, not just run. Tunable numbers live in a `config.py` per project.
+- **Rule-based where possible.** Most gesture logic is geometry over landmarks (joint angles, distances), so there is no dataset to collect and no model to train.
 
 ## License
 
-Add your preferred license here (e.g. MIT) if you plan to make this
-repository public.
+[MIT](./LICENSE)
