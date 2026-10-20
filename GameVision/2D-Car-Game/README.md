@@ -12,7 +12,7 @@ and every sound, car and road texture is generated in code with **pygame + numpy
 
 | Game over | Name entry | High scores |
 |:---:|:---:|:---:|
-| ![Game over](screenshots/game-over.png) | ![Name entry](screenshots/name-entry.png) | ![High scores](screenshots/high-scores.png) |
+| ![Game over](screenshots/gameover.png) | ![Name entry](screenshots/nameentry.png) | ![High scores](screenshots/highscores.png) |
 
 ## Features
 
