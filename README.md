@@ -55,9 +55,16 @@ pip install mediapipe==0.10.21
 │   ├── HandVision-filters/      # finger-count filters, photo + video capture
 │   ├── Air-Draw/                # draw in the air
 │   ├── Rock-papper-scissors/    # RPS game vs. the computer
-│   └── Sign-Identification/     # 10-sign rule-based classifier
+│   └── Sign-Identification/     # rule-based hand-sign classifier
+├── FaceVision/
+│   └── SnapProps/               # face-tracked AR props and filters
 ├── GameVision/
-│   └── FlappyBird/              # Head-Tilt Traffic Racer (folder name is historical)
+│   ├── 2D-Car-Game/             # Head-Tilt Traffic Racer (full version, all assets generated in code)
+│   └── FlappyBird/              # earlier Head-Tilt Traffic Racer prototype (folder name is historical)
+├── ImgVision/
+│   └── outpainting/             # batch background outpainter with a desktop GUI
+├── SafetyVision/
+│   └── WatchDog/                # YOLOv4-tiny webcam security monitor with alarm + phone alerts
 ├── DocVision/                   # reserved
 ├── RadarVision/                 # reserved
 ├── requirements.txt
