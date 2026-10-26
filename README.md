@@ -64,7 +64,7 @@ pip install mediapipe==0.10.21
 ├── ImgVision/
 │   └── outpainting/             # batch background outpainter with a desktop GUI
 ├── SafetyVision/
-│   └── WatchDog/                # YOLOv4-tiny webcam security monitor with alarm + phone alerts
+│   └── WatchDog/                # YOLOv4-tiny webcam security monitor with alarm
 ├── DocVision/                   # reserved
 ├── RadarVision/                 # reserved
 ├── requirements.txt
