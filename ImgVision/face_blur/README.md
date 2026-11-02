@@ -18,7 +18,7 @@ FaceBlur is a small desktop app (Python + OpenCV + CustomTkinter) that finds eve
 
 | Before |                    After                     |
 |:---:|:--------------------------------------------:|
-| ![Original photo](screenshots/example_before.jpg) | ![before.jpg](screenshots/example_after.jpg) |
+| ![Original photo](screenshots/before.jpg) | ![before.jpg](screenshots/after.jpg) |
 
 *Only the faces are blurred. The rest of the picture stays sharp.*
 
