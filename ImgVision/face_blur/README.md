@@ -22,16 +22,6 @@ FaceBlur is a small desktop app (Python + OpenCV + CustomTkinter) that finds eve
 
 *Only the faces are blurred. The rest of the picture stays sharp.*
 
-### Distant faces
-
-Small, far-away faces are caught too (5 faces, from about 100 px down to 14 px wide):
-
-| Before | After |
-|:---:|:---:|
-| ![Distant faces, original](screenshots/demo_before.jpg) | ![Distant faces, blurred](screenshots/demo_after.jpg) |
-
----
-
 ## Features
 
 - Blur one image, many images, or a whole folder at once
