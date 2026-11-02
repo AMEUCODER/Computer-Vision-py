@@ -10,9 +10,10 @@ Real-time computer vision projects in Python: hand-gesture recognition, live cam
 | **Air Draw** | HandVision | Draw in the air with your index finger; two-finger erase, fist to clear. | [`HandVision/Air-Draw`](./HandVision/Air-Draw) |
 | **Rock-Paper-Scissors** | HandVision | Play against the computer using your real hand, with a countdown and scoreboard. | [`HandVision/Rock-papper-scissors`](./HandVision/Rock-papper-scissors) |
 | **Sign Identification** | HandVision | Recognizes 10 hand signs (fist, peace, thumbs up, OK, ...) with rule-based geometry, no training data. | [`HandVision/Sign-Identification`](./HandVision/Sign-Identification) |
-| **Head-Tilt Traffic Racer** | GameVision | Steer a car through 3-lane traffic by tilting your head. Difficulty modes and a top-5 leaderboard. | [`GameVision/FlappyBird`](./GameVision/FlappyBird) |
+| **Tilt Flap** | GameVision | Flappy Bird you play by tilting your head. Three difficulty modes and a top-5 leaderboard. | [`GameVision/FlappyBird`](./GameVision/FlappyBird) |
+| **Head-Tilt Traffic Racer** | GameVision | Steer a car through 3-lane traffic by tilting your head. All sound and graphics generated in code. | [`GameVision/2D-Car-Game`](./GameVision/2D-Car-Game) |
 
-> `DocVision`, `RadarVision` and `GameVision/2D-Car-Game` are reserved folders for upcoming projects and contain no code yet.
+> `DocVision` and `RadarVision` are reserved folders for upcoming projects and contain no code yet.
 
 ## Tech Stack
 
@@ -59,8 +60,8 @@ pip install mediapipe==0.10.21
 ├── FaceVision/
 │   └── SnapProps/               # face-tracked AR props and filters
 ├── GameVision/
-│   ├── 2D-Car-Game/             # Head-Tilt Traffic Racer (full version, all assets generated in code)
-│   └── FlappyBird/              # earlier Head-Tilt Traffic Racer prototype (folder name is historical)
+│   ├── 2D-Car-Game/             # Head-Tilt Traffic Racer (all assets generated in code)
+│   └── FlappyBird/              # Tilt Flap: Flappy Bird controlled by head tilt
 ├── ImgVision/
 │   └── outpainting/             # batch background outpainter with a desktop GUI
 ├── SafetyVision/
