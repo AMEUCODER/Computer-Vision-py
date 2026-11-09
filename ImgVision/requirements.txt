@@ -1,0 +1,10 @@
+# Core (every tool)
+pillow
+numpy
+opencv-python>=4.8,<5
+
+# Windows for the tools (without it the command line still works)
+customtkinter>=5.2
+
+# Only for background blur (better person mask) and the webcam/picture filter projects
+mediapipe
