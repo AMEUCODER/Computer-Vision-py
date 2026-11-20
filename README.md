@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Last commit](https://img.shields.io/github/last-commit/AMEUCODER/Computer-Vision-py)
 
-**Ten real-time computer vision projects in Python.** Steer a car by tilting your head, switch filters with your fingers, blur every face in a folder of photos, or turn a webcam into a security monitor. Built with OpenCV, MediaPipe, YOLO, NumPy, Pygame and Tkinter. The focus is practical, real-time image processing that balances accuracy with speed.
+**Eleven computer vision projects in Python, plus a plug-in image toolkit.** Steer a car by tilting your head, switch filters with your fingers, blur every face in a folder of photos, watermark images, or turn a webcam into a security monitor. Built with OpenCV, MediaPipe, YOLO, NumPy, Pygame and Tkinter. The focus is practical, real-time image processing that balances accuracy with speed.
 
 <!-- TIP: add a 10-15 second demo GIF here (for example docs/demo.gif) showing the head-tilt game, the gesture filters and Air Draw. -->
 
@@ -31,7 +31,7 @@
 
 - **Something fun?** Play [Head-Tilt Traffic Racer](./GameVision/2D-Car-Game) or [Tilt Flap](./GameVision/FlappyBird) with just your head.
 - **Hands-free control?** Try the [Hand Gesture Filter Camera](./HandVision/HandVision-filters) or [Air Draw](./HandVision/Air-Draw).
-- **Something useful?** Use [FaceBlur](./ImgVision/face_blur) to anonymize photos, or [WatchDog](./SafetyVision/WatchDog) as a webcam security monitor.
+- **Something useful?** Use [FaceBlur](./ImgVision/face_blur) to anonymize photos, the [ImgVision toolkit](./ImgVision) to batch-edit images, or [WatchDog](./SafetyVision/WatchDog) as a webcam security monitor.
 
 ## Projects
 
@@ -46,9 +46,22 @@
 | [**Head-Tilt Traffic Racer**](./GameVision/2D-Car-Game) | GameVision | Steer a car through 3-lane traffic by tilting your head. All sound and graphics are generated in code. | OpenCV, MediaPipe, Pygame, NumPy |
 | [**FaceBlur**](./ImgVision/face_blur) | ImgVision | Desktop app that blurs every face in your photos, one by one or a whole folder at once. Finds small, distant faces and has adjustable blur strength and detection sensitivity. | OpenCV (YuNet), CustomTkinter |
 | [**Background Outpainter**](./ImgVision/outpainting) | ImgVision | Extends the background of photos to any resolution (Reels, Instagram, 4K, A4) for many photos at once, with a live preview. | OpenCV, NumPy, Tkinter |
+| [**WaterMark**](./ImgVision/WaterMark) | ImgVision | Command-line tools to add a text watermark (Arabic text supported), overlay a transparent logo, or remove a watermark from a selected rectangle with inpainting. | OpenCV, Pillow |
 | [**WatchDog**](./SafetyVision/WatchDog) | SafetyVision | Webcam security monitor: detects people with YOLOv4-tiny, sounds an alarm, sends phone notifications and counts people leaving the frame. | OpenCV (DNN), YOLOv4-tiny |
 
-> `DocVision` and `RadarVision` are reserved for upcoming projects.
+### ImgVision toolkit
+
+Besides the standalone apps, `ImgVision` contains a small plug-in engine: each tool (adjust, auto enhance, blur, crop, rotate / flip, face blur) is its own module, and a runner picks it up automatically. There is a `pytest` suite in `ImgVision/tests`.
+
+```bash
+pip install -r ImgVision/requirements.txt
+cd ImgVision
+python run_tool.py            # pick a tool from a menu
+python run_tool.py list       # list available tools
+python run_tool.py adjust     # run one tool directly
+```
+
+See [`ImgVision/README.md`](./ImgVision) for every tool and its options.
 
 ## Quick start
 
@@ -76,10 +89,11 @@ python main.py
 
 ### Projects that need extra packages
 
-`requirements.txt` covers the hand, face and game projects. Three projects need a little more:
+`requirements.txt` covers the hand, face and game projects. The projects below need a little more:
 
 | Project | Extra setup |
 |---|---|
+| **ImgVision toolkit, WaterMark** | `pip install -r ImgVision/requirements.txt` |
 | **FaceBlur** | `pip install customtkinter pillow` |
 | **WatchDog** | `pip install playsound==1.2.2 requests` (the newest `playsound` fails to install on recent Python versions, so use 1.2.2) |
 | **Background Outpainter** | Nothing extra. Tkinter ships with Python. On Linux: `sudo apt install python3-tk` |
@@ -109,6 +123,8 @@ pip install mediapipe==0.10.21
 | **MediaPipe** | Pretrained hand and face landmark tracking (21 hand points, 468 face points) |
 | **NumPy** | Array math for filters, angles and distances, procedural sound and graphics |
 | **Pygame** | Window, input and rendering for the camera-controlled games |
+| **Pillow** | Image editing and text rendering in the ImgVision toolkit and WaterMark |
+| **pytest** | Tests for the ImgVision engine and tools |
 | **Tkinter / CustomTkinter** | Desktop interfaces for FaceBlur and the Background Outpainter |
 
 ## Repository structure
@@ -126,12 +142,17 @@ pip install mediapipe==0.10.21
 │   ├── 2D-Car-Game/             # Head-Tilt Traffic Racer (all assets generated in code)
 │   └── FlappyBird/              # Tilt Flap: Flappy Bird controlled by head tilt
 ├── ImgVision/
+│   ├── engine/                  # plug-in tool engine and runner
+│   ├── adjust/ auto_enhance/    # image tools
+│   ├── blur/ crop/ rotate_flip/
 │   ├── face_blur/               # FaceBlur: batch face-blurring desktop app
-│   └── outpainting/             # batch background outpainter with a desktop GUI
+│   ├── outpainting/             # batch background outpainter with a desktop GUI
+│   ├── WaterMark/               # add, overlay or remove watermarks
+│   ├── tests/                   # pytest suite
+│   ├── run_tool.py              # tool picker / CLI entry point
+│   └── requirements.txt
 ├── SafetyVision/
 │   └── WatchDog/                # YOLOv4-tiny webcam security monitor with alarm
-├── DocVision/                   # reserved
-├── RadarVision/                 # reserved
 ├── requirements.txt
 ├── LICENSE
 └── README.md
