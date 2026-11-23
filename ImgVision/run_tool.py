@@ -1,11 +1,4 @@
-"""Launch ImgVision's tool picker or a specific image-processing tool.
-
-Examples:
-    python run_tool.py
-    python run_tool.py list
-    python run_tool.py blur photo.jpg --mode background --strength 15
-    python run_tool.py crop photo.jpg --aspect 9:16 --zoom 1.5 --offset-x 20
-"""
+"""Launch ImgVision's tool picker, image tools, or document converters."""
 from adjust.tool import AdjustTool
 from auto_enhance.tool import AutoEnhanceTool
 from blur.tool import BlurTool
@@ -17,5 +10,12 @@ TOOLS = [AdjustTool, AutoEnhanceTool, BlurTool, CropTool, FaceBlurTool, RotateFl
 
 
 if __name__ == "__main__":
+    import sys
+    if sys.argv[1:2] == ["convert"]:
+        from converters.main import main
+        raise SystemExit(main(sys.argv[2:]))
+    if sys.argv[1:2] == ["word2pdf"]:
+        from word2pdf.main import main
+        main()
     from engine.runner import run_all
     run_all(TOOLS)
