@@ -144,6 +144,15 @@ pip install mediapipe==0.10.21
 - **Readable, commented code.** Each project is meant to be learned from, not just run. Most projects keep their tunable numbers in a `config.py`.
 - **Rule-based where possible.** Most gesture logic is geometry over landmarks (joint angles, distances), so there is no dataset to collect and no model to train.
 
+## To do
+
+- [ ] Add a 10-15 second demo GIF at the top of this README (head-tilt game, gesture filters, Air Draw)
+- [ ] Delete the leftover `ImgVision/outpainting/tmp` placeholder file
+- [ ] Add a GitHub Actions workflow that runs the `ImgVision` tests
+- [ ] Add screenshots to WaterMark, Air Draw, Sign Identification and SnapProps
+- [ ] Add tests for the HandVision and FaceVision projects (for example the gesture classifiers)
+- [ ] Add a new project to an empty category, such as document scanning or object tracking
+
 ## Feedback
 
 Found a bug or have an idea for a new project? [Open an issue](https://github.com/AMEUCODER/Computer-Vision-py/issues). Feedback is welcome.
